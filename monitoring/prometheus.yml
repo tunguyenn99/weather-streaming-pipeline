@@ -1,0 +1,11 @@
+global:
+  scrape_interval: 30s # Collect metrics every 30 seconds
+
+scrape_configs:
+  - job_name: 'kafka-monitoring'
+    static_configs:
+      - targets: ['kafka-exporter:9308']
+
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']

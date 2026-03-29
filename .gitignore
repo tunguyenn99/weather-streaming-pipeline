@@ -1,0 +1,13 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+
+# Environment
+.env
+
+# Docker data (Dữ liệu của Kafka/Prometheus khi chạy)
+data/
+
+# UV
+uv.lock

@@ -1,0 +1,70 @@
+services:
+  # 1. Zookeeper - Coordination for Kafka
+  zookeeper:
+    image: zookeeper:3.9.2
+    ports:
+      - "2181:2181"
+    environment:
+      ZOO_MY_ID: 1
+
+  # 2. Kafka Broker
+  kafka:
+    image: wurstmeister/kafka:latest
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: kafka
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_CREATE_TOPICS: "weather_data:1:1"
+    depends_on:
+      - zookeeper
+
+  # 3. Kafka Exporter for Monitoring
+  kafka-exporter:
+    image: danielqsj/kafka-exporter:latest
+    command: ["--kafka.server=kafka:9092"]
+    ports:
+      - "9308:9308"
+    depends_on:
+      - kafka
+
+  # 4. Prometheus - Metrics Storage
+  prometheus:
+    image: prom/prometheus:latest
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    depends_on:
+      - kafka-exporter
+
+  # 5. Grafana - Dashboard
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    depends_on:
+      - prometheus
+
+  # 6. Weather Producer (Your Python App)
+  producer:
+    build:
+      context: .
+      dockerfile: producer/Dockerfile
+    env_file: .env
+    restart: on-failure
+    depends_on:
+      - kafka
+
+  # 7. Spark Consumer (Your PySpark App)
+  spark-consumer:
+    build:
+      context: .
+      dockerfile: consumer/Dockerfile
+    env_file: .env
+    restart: on-failure
+    depends_on:
+      - kafka
