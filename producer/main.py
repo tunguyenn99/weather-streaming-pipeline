@@ -6,7 +6,7 @@ from kafka import KafkaProducer
 from dotenv import load_dotenv
 from loguru import logger
 
-# 1. Load cấu hình
+# 1. Load configuration
 load_dotenv()
 KAFKA_SERVER = os.getenv("KAFKA_BOOTSTRAP_SERVERS", "localhost:9092")
 TOPIC = os.getenv("WEATHER_TOPIC", "weather_data")
@@ -14,8 +14,8 @@ LAT = os.getenv("LAT", "21.0285")
 LON = os.getenv("LON", "105.8542")
 INTERVAL = int(os.getenv("FETCH_INTERVAL_SECONDS", 60))
 
-# 2. Khởi tạo Kafka Producer
-# Lưu ý: value_serializer giúp tự động chuyển dict thành chuỗi JSON byte
+# 2. Initialize Kafka Producer
+# Note: value_serializer automatically converts the dict into a JSON byte string
 producer = KafkaProducer(
     bootstrap_servers=[KAFKA_SERVER],
     value_serializer=lambda x: json.dumps(x).encode('utf-8')
@@ -28,7 +28,7 @@ def fetch_weather():
         response.raise_for_status()
         data = response.json()
         
-        # Chỉ lấy phần current_weather và thêm timestamp
+        # Extract current_weather section and add metadata
         weather = data.get("current_weather", {})
         weather["timestamp"] = time.time()
         weather["location"] = {"lat": LAT, "lon": LON}
@@ -46,6 +46,7 @@ def main():
             producer.send(TOPIC, value=data)
             logger.info(f"Sent to Kafka: {data['temperature']}°C at {data['time']}")
         
+        # Wait for the next fetch cycle
         time.sleep(INTERVAL)
 
 if __name__ == "__main__":

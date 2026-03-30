@@ -1,5 +1,5 @@
 services:
-  # 1. Zookeeper - Coordination for Kafka
+  # 1. Zookeeper - Distributed Coordination for Kafka
   zookeeper:
     image: zookeeper:3.9.2
     ports:
@@ -16,20 +16,22 @@ services:
       KAFKA_ADVERTISED_HOST_NAME: kafka
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_PORT: 9092
+      # Automatically creates the weather_data topic with 1 partition and 1 replica
       KAFKA_CREATE_TOPICS: "weather_data:1:1"
     depends_on:
       - zookeeper
 
-  # 3. Kafka Exporter for Monitoring
+  # 3. Kafka Exporter - Extracts Kafka metrics for Prometheus
   kafka-exporter:
     image: danielqsj/kafka-exporter:latest
+    restart: on-failure
     command: ["--kafka.server=kafka:9092"]
     ports:
       - "9308:9308"
     depends_on:
       - kafka
 
-  # 4. Prometheus - Metrics Storage
+  # 4. Prometheus - Time-series Database for Metrics Storage
   prometheus:
     image: prom/prometheus:latest
     volumes:
@@ -39,17 +41,27 @@ services:
     depends_on:
       - kafka-exporter
 
-  # 5. Grafana - Dashboard
+  # 5. Grafana - Visualization Dashboard
   grafana:
     image: grafana/grafana:latest
     ports:
       - "3000:3000"
     environment:
       - GF_SECURITY_ADMIN_PASSWORD=admin
+      # Optional: Enable anonymous access to bypass login screen
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+    volumes:
+      # 1. Automated Prometheus connection (Data Source provisioning)
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      # 2. Automated loading of dashboard provider settings
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
+      # 3. Mount folder containing actual JSON dashboard files
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
     depends_on:
       - prometheus
 
-  # 6. Weather Producer (Your Python App)
+  # 6. Weather Producer (Python Ingestion App)
   producer:
     build:
       context: .
@@ -59,7 +71,7 @@ services:
     depends_on:
       - kafka
 
-  # 7. Spark Consumer (Your PySpark App)
+  # 7. Spark Consumer (PySpark Streaming App)
   spark-consumer:
     build:
       context: .

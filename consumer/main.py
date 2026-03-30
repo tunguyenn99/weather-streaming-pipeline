@@ -31,7 +31,8 @@ def main():
         .format("kafka") \
         .option("kafka.bootstrap.servers", kafka_bootstrap_servers) \
         .option("subscribe", topic) \
-        .option("group.id", "weather-final-group") \
+        .option("group.id", "weather-consumer-group") \
+        .option("kafka.group.id", "weather-consumer-group") \
         .option("startingOffsets", "earliest") \
         .load()
 
@@ -53,6 +54,7 @@ def main():
         .format("console") \
         .option("checkpointLocation", "/tmp/checkpoints/weather_stats") \
         .trigger(processingTime='10 seconds') \
+        .option("kafka.group.id", "weather-consumer-group") \
         .start()
 
     query.awaitTermination()

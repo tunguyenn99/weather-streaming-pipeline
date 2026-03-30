@@ -3,7 +3,7 @@ name = "weather-streaming-pipeline"
 version = "0.1.0"
 description = "Real-time weather data pipeline using Kafka and PySpark"
 readme = "README.md"
-# Spark 3.5.0 hoạt động ổn định nhất trên Python 3.11
+# Spark 3.5.0 works most stably on Python 3.11
 requires-python = ">=3.10,<3.12"
 dependencies = [
     "loguru>=0.7.2",
@@ -11,16 +11,16 @@ dependencies = [
 ]
 
 [dependency-groups]
-# Nhóm dành cho Consumer (Spark)
+# Group for Consumer (Spark)
 consumer = [
     "pyspark==3.5.0",
 ]
-# Nhóm dành cho Producer (Kafka + API)
+# Group for Producer (Kafka + API)
 producer = [
     "kafka-python-ng>=2.2.3",
     "requests>=2.31.0",
 ]
 
 [tool.uv]
-# Ép uv sử dụng python 3.11 khi sync trong Docker
+# Force uv to use Python 3.11 when syncing in Docker
 python-preference = "only-managed"

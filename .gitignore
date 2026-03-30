@@ -6,7 +6,7 @@ __pycache__/
 # Environment
 .env
 
-# Docker data (Dữ liệu của Kafka/Prometheus khi chạy)
+# Docker data (Data of Kafka/Prometheus after run)
 data/
 
 # UV

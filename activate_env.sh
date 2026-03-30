@@ -13,14 +13,14 @@ if ! command -v uv &> /dev/null; then
     return 1 2>/dev/null || exit 1
 fi
 
-# 2. Sync the environment (Forcing Python 3.11 as per our PySpark requirement)
+# 2. Sync the environment (Enforcing Python 3.11 as per PySpark requirements)
 echo "Checking dependencies and syncing with Python 3.11..."
-# Lệnh này đảm bảo uv dùng 3.11 để tạo venv
+# This command ensures uv uses Python 3.11 to create the virtual environment
 uv sync --python 3.11
 
 # 3. Activate the virtual environment
 if [ -d "$VENV_DIR" ]; then
-    # Dùng lệnh này để bọc an toàn cho cả bash và zsh
+    # Source the activation script for both Bash and Zsh compatibility
     source "$VENV_DIR/bin/activate"
     
     echo "SUCCESS: Virtual environment activated."

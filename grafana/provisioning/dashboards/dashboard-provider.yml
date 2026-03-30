@@ -1,0 +1,10 @@
+apiVersion: 1
+providers:
+  - name: 'Weather Pipeline Dashboards'
+    orgId: 1
+    folder: 'Real-time Monitoring'
+    type: file
+    disableDeletion: false
+    editable: true
+    options:
+      path: /var/lib/grafana/dashboards 
