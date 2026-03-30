@@ -8,6 +8,8 @@ A robust, end-to-end data engineering ecosystem for real-time weather analytics.
 
 The pipeline is built on a decoupled, event-driven architecture to ensure high availability and horizontal scalability:
 
+![System Architecture](./images/excalidraw/weather_pipeline.png)
+
 1.  **Data Ingestion:** Fetches live weather metrics (Temperature, Wind speed, etc.) from the **Open-Meteo API**.
 2.  **Producer (Python):** A high-performance ingestion script managed by **uv** that polls the API and publishes JSON payloads to Kafka.
 3.  **Message Broker (Kafka & Zookeeper):** Orchestrates high-throughput data buffering and decoupling between ingestion and processing.
