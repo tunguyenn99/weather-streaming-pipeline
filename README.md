@@ -1,5 +1,24 @@
 # 🌀 Real-Time Weather Data Streaming Pipeline
 
+<p align="center">
+  <img src="https://img.shields.io/badge/Status-Active-success?style=for-the-badge" alt="Status">
+  <img src="https://img.shields.io/badge/Maintained%3F-yes-green.svg?style=for-the-badge" alt="Maintained">
+  <img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=for-the-badge" alt="PRs Welcome">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python">
+  <img src="https://img.shields.io/badge/Apache_Kafka-231F20?style=for-the-badge&logo=apache-kafka&logoColor=white" alt="Kafka">
+  <img src="https://img.shields.io/badge/Apache_Spark-E25A1C?style=for-the-badge&logo=apache-spark&logoColor=white" alt="Spark">
+  <img src="https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white" alt="Docker">
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Prometheus-E6522C?style=for-the-badge&logo=prometheus&logoColor=white" alt="Prometheus">
+  <img src="https://img.shields.io/badge/Grafana-F46800?style=for-the-badge&logo=grafana&logoColor=white" alt="Grafana">
+  <img src="https://img.shields.io/badge/uv-5D2DE2?style=for-the-badge&logo=python&logoColor=white" alt="uv">
+</p>
+
 A robust, end-to-end data engineering ecosystem for real-time weather analytics. This pipeline ingests live metrics from the **Open-Meteo API**, streams them through **Apache Kafka**, processes windowed aggregations with **PySpark**, and visualizes system performance via a **Prometheus & Grafana** monitoring stack.
 
 -----
@@ -8,7 +27,7 @@ A robust, end-to-end data engineering ecosystem for real-time weather analytics.
 
 The pipeline is built on a decoupled, event-driven architecture to ensure high availability and horizontal scalability:
 
-![System Architecture](./images/excalidraw/weather_pipeline.png)
+![System Architecture](./excalidraw/weather_pipeline.png)
 
 1.  **Data Ingestion:** Fetches live weather metrics (Temperature, Wind speed, etc.) from the **Open-Meteo API**.
 2.  **Producer (Python):** A high-performance ingestion script managed by **uv** that polls the API and publishes JSON payloads to Kafka.
@@ -110,7 +129,11 @@ If you are setting this up for the first time, you can refer to the step-by-step
 2. **Connect Prometheus:** `02_connect_prometheus.png`
 3. **Template Setup:** `05_kafka_exporter_template.png` (using ID 7589)
 
------
+---
 
-- **Author:** [@tunguyenn99](https://www.google.com/search?q=https://github.com/tunguyenn99)
-- **Project:** Real-Time Weather Data Streaming Pipeline
+### 🤝 Connect & Community
+
+* **Author**: [Tu Nguyen](https://www.linkedin.com/in/tunguyenn99/)
+* **Community**: Join the [Xom Data](https://www.facebook.com/groups/xomdata/) community for more data analytics engineering insights!
+
+*Built with ❤️ for the **Xom Data** community.*
