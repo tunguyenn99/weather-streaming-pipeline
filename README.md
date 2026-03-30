@@ -21,6 +21,8 @@
 
 A robust, end-to-end data engineering ecosystem for real-time weather analytics. This pipeline ingests live metrics from the **Open-Meteo API**, streams them through **Apache Kafka**, processes windowed aggregations with **PySpark**, and visualizes system performance via a **Prometheus & Grafana** monitoring stack.
 
+![Demo](./images/Animation.gif)
+
 -----
 
 ## 🏗️ System Architecture
