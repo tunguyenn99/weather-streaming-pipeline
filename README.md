@@ -1,4 +1,4 @@
-# 🌀 Real-Time Weather Data Streaming Pipeline
+# 🌀 Weather Data Streaming Pipeline
 
 <p align="center">
   <img src="https://img.shields.io/badge/Status-Active-success?style=for-the-badge" alt="Status">
